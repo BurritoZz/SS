@@ -1,0 +1,15 @@
+package ss.week3.pw;
+
+public class StrongChecker extends BasicChecker {
+
+	private static final String INITIAL = "qwerty7";
+	
+	
+	public boolean acceptable(String test) {
+		return super.acceptable(test) && Character.isAlphabetic(test.charAt(0)) && Character.isDigit(test.charAt(test.length() - 1));
+	}
+	
+	public String generatePassword() {
+		return INITIAL;
+	}
+}

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+    This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+    Checkstyle-Configuration: Checkstyle
+    Description: none
+-->
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <module name="TreeWalker">
+    <property name="tabWidth" value="4"/>
+    <module name="AnonInnerLength">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="ArrayTypeStyle">
+      <message key="array.type.style" value="Array brackets at illegal position. (should be directly after the type name, as in &quot;String[] args&quot;)"/>
+    </module>
+    <module name="AvoidNestedBlocks">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="BooleanExpressionComplexity">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="ClassTypeParameterName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}'' (use only upper case letters)."/>
+    </module>
+    <module name="ConstantName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}'' (all letters should be upper case, may use letters, digits and underscores, should start with a letter)."/>
+    </module>
+    <module name="DefaultComesLast"/>
+    <module name="EmptyBlock"/>
+    <module name="EmptyStatement"/>
+    <module name="FallThrough"/>
+    <module name="GenericWhitespace"/>
+    <module name="HiddenField">
+      <property name="ignoreConstructorParameter" value="true"/>
+      <property name="ignoreSetter" value="true"/>
+    </module>
+    <module name="IllegalCatch"/>
+    <module name="IllegalThrows"/>
+    <module name="Indentation"/>
+    <module name="InnerAssignment"/>
+    <module name="JavadocMethod">
+      <property name="severity" value="ignore"/>
+      <property name="suppressLoadErrors" value="true"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="JavadocStyle"/>
+    <module name="JavadocType">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="LeftCurly"/>
+    <module name="LineLength">
+      <property name="max" value="100"/>
+      <property name="tabWidth" value="4"/>
+    </module>
+    <module name="LocalFinalVariableName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (should start with a lower case letter, should not use underscore)"/>
+    </module>
+    <module name="LocalVariableName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (should start with a lower case letter, should not use underscore)"/>
+    </module>
+    <module name="MagicNumber">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="MemberName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (should start with a lower case letter, should not use underscore)"/>
+    </module>
+    <module name="MethodName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (should start with a lower case letter, should not use underscore)"/>
+    </module>
+    <module name="MethodParamPad"/>
+    <module name="MethodTypeParameterName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (only use upper case letters)"/>
+    </module>
+    <module name="ModifiedControlVariable"/>
+    <module name="MultipleStringLiterals">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="NeedBraces"/>
+    <module name="NoWhitespaceAfter"/>
+    <module name="NoWhitespaceBefore"/>
+    <module name="ParameterAssignment"/>
+    <module name="ParameterName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (should start with a lower case letter, should not use underscore)"/>
+    </module>
+    <module name="ParenPad"/>
+    <module name="RedundantImport"/>
+    <module name="ReturnCount">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="RightCurly"/>
+    <module name="SimplifyBooleanExpression">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="SimplifyBooleanReturn">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="StaticVariableName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (should start with a lower case letter, should not use underscore)"/>
+    </module>
+    <module name="TypeName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (should start with an upper case letter, should not use underscore)"/>
+    </module>
+    <module name="TypecastParenPad">
+      <property name="tokens" value="RPAREN,TYPECAST"/>
+    </module>
+    <module name="UnusedImports"/>
+    <module name="UnnecessaryParentheses"/>
+    <module name="WhitespaceAfter"/>
+    <module name="WhitespaceAround"/>
+    <module name="PackageName">
+      <message key="name.invalidPattern" value="Name ''{0}'' must match pattern ''{1}''. (the first seqment may only contain letters and underscore)"/>
+    </module>
+    <module name="PackageDeclaration"/>
+  </module>
+  <module name="FileLength">
+    <property name="severity" value="ignore"/>
+    <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+  </module>
+</module>
