@@ -2,7 +2,7 @@ package ss.week3.pw;
 
 public class StrongChecker extends BasicChecker {
 
-	private static final String INITIAL = "qwerty7";
+	public static final String INITPASS = "qwerty7";
 	
 	
 	public boolean acceptable(String test) {
@@ -10,6 +10,6 @@ public class StrongChecker extends BasicChecker {
 	}
 	
 	public String generatePassword() {
-		return INITIAL;
+		return INITPASS;
 	}
 }

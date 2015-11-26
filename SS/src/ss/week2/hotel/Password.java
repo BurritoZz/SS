@@ -16,12 +16,13 @@ public class Password {
 	 * constructs a <code>Password</code> with the initial word provided in INITIAL.
 	 */
 	public Password() {
-		;
+		checker = new BasicChecker();
+		password = checker.generatePassword();
 	}
 	
 	public Password(Checker ch) {
 		checker = ch;
-		password = ch.generatePassword();
+		password = checker.generatePassword();
 	}
 	
 	/**
