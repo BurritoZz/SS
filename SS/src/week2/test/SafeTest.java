@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import ss.week2.hotel.Safe;
+
+import ss.week3.hotel.Safe;
 
 public class SafeTest {
 

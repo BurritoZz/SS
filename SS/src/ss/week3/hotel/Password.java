@@ -1,4 +1,4 @@
-package ss.week2.hotel;
+package ss.week3.hotel;
 
 import ss.week3.pw.*;
 
@@ -13,13 +13,16 @@ public class Password {
 	private Checker checker;
 	
 	/**
-	 * constructs a <code>Password</code> with the initial word provided in INITIAL.
+	 * constructs a <code>Password</code> with the initial word provided in INITIAL and the basic checker.
 	 */
 	public Password() {
-		checker = new BasicChecker();
-		password = checker.generatePassword();
+		this(new BasicChecker());
 	}
 	
+	/**
+	 * 
+	 * @param ch
+	 */
 	public Password(Checker ch) {
 		checker = ch;
 		password = ch.generatePassword();
@@ -32,10 +35,7 @@ public class Password {
 	 * 		   and if it does not contain a space.
 	 */
 	/*@pure */ public boolean acceptable(String suggestion) {
-		if (suggestion.length() < 6 || suggestion.contains(" ")) {
-			return false;
-		}
-		return true;
+		return checker.acceptable(suggestion);
 	}
 	
 	/**
@@ -57,12 +57,13 @@ public class Password {
 	 * 		   and if newpass is acceptable.
 	 */
 	public boolean setWord(String oldpass, String newpass) {
-		if (testWord(oldpass) && acceptable(newpass)) {
+		if (password == oldpass && acceptable(newpass)) {
 			password = newpass;
 			return true;
 		}
 		return false;
 	}
+	
 	
 	
 }

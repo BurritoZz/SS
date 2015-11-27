@@ -4,6 +4,11 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import ss.week2.hotel.*;
+import ss.week3.hotel.Guest;
+import ss.week3.hotel.Hotel;
+import ss.week3.hotel.Password;
+import ss.week3.hotel.Room;
+import ss.week3.hotel.Safe;
 
 import static org.junit.Assert.*;
 

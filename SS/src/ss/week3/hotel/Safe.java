@@ -1,4 +1,4 @@
-package ss.week2.hotel;
+package ss.week3.hotel;
 /**
  * @author max
  * @version v1.0

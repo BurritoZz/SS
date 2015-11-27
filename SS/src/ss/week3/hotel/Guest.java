@@ -1,4 +1,4 @@
-package ss.week2.hotel;
+package ss.week3.hotel;
 /**
  * Hotel guest with name and possibly a room.
  * @author Max Hendriks

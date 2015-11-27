@@ -2,8 +2,9 @@ package ss.week2.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import ss.week2.hotel.Guest;
-import ss.week2.hotel.Room;
+
+import ss.week3.hotel.Guest;
+import ss.week3.hotel.Room;
 
 import static org.junit.Assert.assertEquals;
 
