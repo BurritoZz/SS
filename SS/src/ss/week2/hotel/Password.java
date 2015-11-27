@@ -16,7 +16,8 @@ public class Password {
 	 * constructs a <code>Password</code> with the initial word provided in INITIAL.
 	 */
 	public Password() {
-		this(new BasicChecker());
+		checker = new BasicChecker();
+		password = checker.generatePassword();
 	}
 	
 	public Password(Checker ch) {
@@ -31,7 +32,10 @@ public class Password {
 	 * 		   and if it does not contain a space.
 	 */
 	/*@pure */ public boolean acceptable(String suggestion) {
-		return checker.acceptable(suggestion);
+		if (suggestion.length() < 6 || suggestion.contains(" ")) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -53,11 +57,12 @@ public class Password {
 	 * 		   and if newpass is acceptable.
 	 */
 	public boolean setWord(String oldpass, String newpass) {
-		if (testWord(oldpass) && checker.acceptable(newpass)) {
+		if (testWord(oldpass) && acceptable(newpass)) {
 			password = newpass;
 			return true;
 		}
 		return false;
 	}
+	
 	
 }

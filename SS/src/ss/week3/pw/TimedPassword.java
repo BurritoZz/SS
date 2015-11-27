@@ -3,10 +3,12 @@ import ss.week2.hotel.Password;
 
 public class TimedPassword extends Password {
 	private long validTime;
+	private long defaultTime = 25200000;
 	private long begin;
 	
 	public TimedPassword()	{
-		this(25200000);
+		validTime = defaultTime;
+		begin = System.currentTimeMillis();
 	}
 	
 	public TimedPassword(long exptime)	{
@@ -15,14 +17,6 @@ public class TimedPassword extends Password {
 	}
 	
 	public boolean isExpired()	{
-		return System.currentTimeMillis() - begin > validTime;
-	}
-	
-	public boolean setWord(String oud, String probeersel)	{
-		if (super.setWord(oud, probeersel))	{
-			begin = System.currentTimeMillis();
-			return true;
-		}
-		return false;
+		return System.currentTimeMillis() - begin < validTime;
 	}
 }
