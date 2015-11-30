@@ -139,7 +139,7 @@ public class Hotel {
 	}
 	
 	/**
-	 * gets the factory password
+	 * gets the factory password.
 	 */
 	/*@pure */ public String getFactoryPassword() {
 		return factoryPassword;
@@ -209,6 +209,38 @@ public class Hotel {
 					" currrently hosts noone. Is the safe in this room active?:  " +
 					room2.getSafe().isActive() + " And is it open?: " + room2.getSafe().isOpen();
 		}
+		return null;
+	}
+	
+	public Bill getBill(String guestName, int noOfNights, java.io.PrintStream theOutStream) {
+		Bill bill = new Bill(theOutStream);
+		if (guestName == null) {
+			return null;
+		}
+		if (room1.getGuest() != null && room1.getGuest().getName().equals(guestName)) {
+			if (room1 instanceof PricedRoom) {
+				for (int i = 0; i < noOfNights; i++) {
+					bill.newItem((PricedRoom) room1);
+				}
+				if (room1.getSafe() instanceof PricedSafe && room1.getSafe().isActive()) {
+					bill.newItem((PricedSafe) room1.getSafe());
+				}
+				return bill;
+			}
+		}
+		
+		if (room2.getGuest() != null && room2.getGuest().getName().equals(guestName)) {
+			if (room2 instanceof PricedRoom) {
+				for (int i = 0; i < noOfNights; i++) {
+					bill.newItem((PricedRoom) room2);
+				}
+				if (room2.getSafe() instanceof PricedSafe && room2.getSafe().isActive()) {
+					bill.newItem((PricedSafe) room2.getSafe());
+				}
+				return bill;
+			}
+		}
+		
 		return null;
 	}
 	
