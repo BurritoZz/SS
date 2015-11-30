@@ -23,6 +23,10 @@ public class Room {
     	number = no;
     	safe = new Safe(password);
     }
+    public Room(int no, String password, Safe kluis) {
+    	number = no;
+    	safe = kluis;
+    }
 
     // ------------------ Queries --------------------------
 

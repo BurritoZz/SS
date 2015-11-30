@@ -3,7 +3,7 @@ package ss.week3.test;
 import org.junit.Before;
 import org.junit.Test;
 import ss.week3.hotel.Bill;
-import ss.week3.hotel.PricedSafe;
+import ss.week3.hotel.pricedSafe;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +15,7 @@ public class PricedSafeTest {
 
     @Before
     public void setUp() throws Exception {
-        item = new PricedSafe(PRICE);
+        item = new pricedSafe(PRICE);
     }
 
     @Test

@@ -15,6 +15,8 @@ public class Hotel {
 	public String name;
 	public Room room1;
 	public Room room2;
+	private PricedRoom billRoom;
+	private Bill bill;
 	public Guest guest1;
 	public Guest guest2;
 	private Password pass;
@@ -210,6 +212,27 @@ public class Hotel {
 					room2.getSafe().isActive() + " And is it open?: " + room2.getSafe().isOpen();
 		}
 		return null;
+	}
+	
+	public Bill getBill(String naam, int aantal, java.io.PrintStream output)	{
+		if (naam == null)	{return null;}
+		if (room1.getGuest().getName().equals(naam) && room1 instanceof PricedRoom)	{
+			billRoom = (PricedRoom) room1;
+		}
+		else if (room2.getGuest().getName().equals(naam) && room2 instanceof PricedRoom)	{
+			billRoom = (PricedRoom) room2;
+		} else {
+			return null;
+		}
+		bill = new Bill(output);
+		for (int i = 0; i < aantal; i++)	{
+			bill.newItem(billRoom);
+		}
+		if (billRoom.getSafe().isActive() && billRoom.getSafe() instanceof pricedSafe)	{
+			bill.newItem((pricedSafe) billRoom.getSafe());
+		}
+		bill.close();
+		return bill;
 	}
 	
 }

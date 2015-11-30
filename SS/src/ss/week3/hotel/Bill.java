@@ -3,19 +3,26 @@ import ss.week3.Format;
 
 public class Bill {
 	private java.io.PrintStream output;
+	private double sum;
 	public Bill(java.io.PrintStream theOutStream)	{
 		output = theOutStream;
 	}
-	public interface Item	{
-		
+	public static interface Item	{
+		public String toString();
+		public double getAmount();
 	}
 	public void close()	{
-		
+		if (output != null)	{
+			output.append(Format.printLine("Totaal:", sum));
+		}
 	}
-	public double getItem()	{
-		return 12;
+	public double getSum()	{
+		return sum;
 	}
-	public void newItem(Bill.Item item)	{
-		output.write(Format(item.getDescription(), item.getAmount()));
+	public void newItem(Item item)	{
+		if (output != null)	{
+			output.append(Format.printLine(item.toString(), item.getAmount()));
+		}
+		sum = sum + item.getAmount();
 	}
 }
