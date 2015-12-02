@@ -215,15 +215,10 @@ public class Hotel {
 	}
 	
 	public Bill getBill(String naam, int aantal, java.io.PrintStream output)	{
-		if (naam == null)	{return null;}
-		if (room1.getGuest().getName().equals(naam) && room1 instanceof PricedRoom)	{
-			billRoom = (PricedRoom) room1;
-		}
-		else if (room2.getGuest().getName().equals(naam) && room2 instanceof PricedRoom)	{
-			billRoom = (PricedRoom) room2;
-		} else {
+		if (getRoom(naam) == null || naam == null || !(getRoom(naam) instanceof PricedRoom))	{
 			return null;
 		}
+		billRoom = (PricedRoom) getRoom(naam);
 		bill = new Bill(output);
 		for (int i = 0; i < aantal; i++)	{
 			bill.newItem(billRoom);
@@ -234,5 +229,4 @@ public class Hotel {
 		bill.close();
 		return bill;
 	}
-	
 }

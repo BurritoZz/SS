@@ -13,7 +13,7 @@ public class Bill {
 	}
 	public void close()	{
 		if (output != null)	{
-			output.append(Format.printLine("Totaal:", sum));
+			output.append(Format.printLine("Totaal: ", sum));
 		}
 	}
 	public double getSum()	{
