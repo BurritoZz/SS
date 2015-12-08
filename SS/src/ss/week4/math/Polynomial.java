@@ -1,6 +1,6 @@
 package ss.week4.math;
 
-public class Polynomial implements Function {
+public class Polynomial implements Function, Integrandable {
 	private LinearProduct[] formule;
 	private double sum;
 	private double[] afgeleide;
@@ -27,7 +27,7 @@ public class Polynomial implements Function {
 	@Override
 	public Function derivative() {
 		afgeleide = new double[formule.length * 2];
-		for (int i = 0; i < array.length/2; i++)	{
+		for (int i = 0; i < array.length / 2; i++)	{
 			int j = i * 2;
 			afgeleide[j] = array[j] * array[j + 1];
 			afgeleide[j + 1] = array[j + 1] - 1;
@@ -35,10 +35,21 @@ public class Polynomial implements Function {
 		return new Polynomial(afgeleide);
 	}
 	public String toString()	{
-		tekst = "";
-		for (int i = 0; i < formule.length; i++)	{
-			tekst = tekst + formule[i].toString();
+		tekst = formule[0].toString();
+		for (int i = 1; i < formule.length; i++)	{
+			tekst = tekst + " + " + formule[i].toString();
 		}
 		return tekst;
+	}
+
+	@Override
+	public Function integrand() {
+		afgeleide = new double[formule.length * 2];
+		for (int i = 0; i < array.length / 2; i++)	{
+			int j = i * 2;
+			afgeleide[j] = array[j] / (array[j + 1] + 1);
+			afgeleide[j + 1] = array[j + 1] + 1;
+		}
+		return new Polynomial(afgeleide);
 	}
 }
