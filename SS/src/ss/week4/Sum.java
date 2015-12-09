@@ -10,6 +10,12 @@ public class Sum implements Function {
 	}
 
 	public double apply(double d) {
+		if (func1 == null) {
+			return func2.apply(d);
+		}
+		if (func2 == null) {
+			return func1.apply(d);
+		}
 		return func1.apply(d) + func2.apply(d);
 	}
 
