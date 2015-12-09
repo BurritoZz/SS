@@ -5,7 +5,6 @@ import java.util.*;
 public class MergeSort {
 	public static <Elem extends Comparable<Elem>>
     	List<Elem> mergesort(List<Elem> list) {
-    	int i = 0;
     	if (list.size() < 2)	{
     		return list;
     	} else {
@@ -14,10 +13,11 @@ public class MergeSort {
     		fst = mergesort(fst);
     		snd = mergesort(snd);
     		List<Elem> res;
+    		res = new ArrayList<Elem>();
     		int fi = 0;
     		int si = 0;
     		while (fi < fst.size() && si < snd.size())	{
-    			if (fst.get(fi) > snd.get(si))	{
+    			if (fst.get(fi).compareTo(snd.get(si)) < 0)	{
     				res.add(fst.get(fi));
     				fi++;
     			} else {
