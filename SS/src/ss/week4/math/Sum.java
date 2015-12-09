@@ -14,8 +14,9 @@ public class Sum implements Function, Integrandable {
 
 	public Function integrand() {
 		if (f1 instanceof Integrandable && f2 instanceof Integrandable)	{
-			return new Sum(f1.integrand(), f2.integrand());
+			return new Sum(((Integrandable) f1).integrand(), ((Integrandable) f2).integrand());
 		}
+		return null;
 	}
 	
 	@Override
