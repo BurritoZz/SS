@@ -23,13 +23,7 @@ public class LinearProduct extends Product implements Integrandable	{
 		return new LinearProduct(c, f2.derivative());
 	}
 	@Override
-	public Function integrand() {
-		if (f2 instanceof Constant)	{
-			return new Product(new Constant(c * f2.apply(0)), new Exponent(1));
-//		} else if (f2 instanceof Exponent)	{
-//			return new Product(new Constant(c), (Exponent) f2.integrand());
-		} else {
-			return null;
-		}
+	public Integrandable integrand() {
+		
 	}
 }
