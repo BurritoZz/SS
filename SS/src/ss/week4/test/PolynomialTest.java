@@ -15,25 +15,25 @@ public class PolynomialTest {
 		array = new double[4];
 		array[0] = 6;
 		array[1] = 7;
-		array[2] = 4;
-		array[3] = 3;
+		array[2] = -4;
+		array[3] = 3.2;
 		polynomial = new Polynomial(array);
 	}
 
     @Test
     public void testApply() {
-        assertTrue(0 == polynomial.apply(0));
-        assertTrue(10 == polynomial.apply(1));
-        assertTrue(-10 == polynomial.apply(-1));
+        assertTrue(3.2 == polynomial.apply(0));
+        assertTrue(12.2 == polynomial.apply(1));
+        assertTrue(8.2 == polynomial.apply(-1));
     }
 
     @Test
     public void testDerivative() {
-        assertTrue(polynomial.derivative().toString().equals("42.0 * x^6 + 12.0 * x^2"));
+        assertTrue(polynomial.derivative().toString().equals("18.0 * x^2 + 14.0 * x^1 + -4.0 * x^0"));
     }
     
     @Test
     public void testIntegrand() {
-        assertTrue(polynomial.integrand().toString().equals("0.75 * x^8 + 1.0 * x^4"));
+        assertTrue(polynomial.integrand().toString().equals("1.5 * x^4 + 2.3333333333333335 * x^3 + -2.0 * x^2 + 3.2 * x^1 + 0.0 * x^0"));
     }
 }

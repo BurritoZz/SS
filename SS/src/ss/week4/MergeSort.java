@@ -3,8 +3,33 @@ package ss.week4;
 import java.util.*;
 
 public class MergeSort {
-    public static <Elem extends Comparable<Elem>>
-           void mergesort(List<Elem> list) {
-    	// TODO: implement, see exercise P-4.16
+	public static <Elem extends Comparable<Elem>>
+    	List<Elem> mergesort(List<Elem> list) {
+    	int i = 0;
+    	if (list.size() < 2)	{
+    		return list;
+    	} else {
+    		List<Elem> fst = list.subList(0, list.size() / 2);
+    		List<Elem> snd = list.subList(list.size() / 2, list.size());
+    		fst = mergesort(fst);
+    		snd = mergesort(snd);
+    		List<Elem> res;
+    		int fi = 0;
+    		int si = 0;
+    		while (fi < fst.size() && si < snd.size())	{
+    			if (fst.get(fi) > snd.get(si))	{
+    				res.add(fst.get(fi));
+    				fi++;
+    			} else {
+    				res.add(snd.get(si));
+    			}
+    		}
+    		if (fi <= fst.size() - 1)	{
+    			res.addAll(fst.subList(fi, fst.size()));
+    		} else if (si <= snd.size() - 1)	{
+    			res.addAll(snd.subList(si, snd.size()));
+    		}
+    		return res;
+    	}
     }
 }

@@ -1,55 +1,48 @@
 package ss.week4.math;
 
 public class Polynomial implements Function, Integrandable {
-	private LinearProduct[] formule;
+	public double[] formule;
 	private double sum;
 	private double[] afgeleide;
 	private String tekst;
-	private double[] array;
 	public Polynomial(double[] n)	{
-		formule = new LinearProduct[n.length / 2];
-		for (int i = 0; 2 * i + 1 < n.length; i++)	{
-			formule[i] = new LinearProduct(n[i * 2], new Exponent((int) n[i * 2 + 1]));
-		}
-		array = new double[n.length];
-		array = n;
+		formule = n;
 	}
 
 	@Override
 	public double apply(double x) {
 		sum = 0;
 		for (int i = 0; i < formule.length; i++)	{
-			sum = sum + formule[i].apply(x);
+			sum += formule[i] * new Exponent(formule.length - i - 1).apply(x);
 		}
 		return sum;
 	}
 
 	@Override
 	public Function derivative() {
-		afgeleide = new double[formule.length * 2];
-		for (int i = 0; i < array.length / 2; i++)	{
-			int j = i * 2;
-			afgeleide[j] = array[j] * array[j + 1];
-			afgeleide[j + 1] = array[j + 1] - 1;
+		afgeleide = new double[formule.length - 1];
+		for (int i = 0; i < afgeleide.length; i++)	{
+			afgeleide[i] = formule[i] * (formule.length - i - 1);
 		}
 		return new Polynomial(afgeleide);
 	}
+	
 	public String toString()	{
-		tekst = formule[0].toString();
+		//@requires formule.length > 0;
+		tekst = formule[0] + " * x^" + (formule.length - 1);
 		for (int i = 1; i < formule.length; i++)	{
-			tekst = tekst + " + " + formule[i].toString();
+			tekst = tekst + " + " + formule[i] + " * x^" + (formule.length - i - 1);
 		}
 		return tekst;
 	}
 
 	@Override
 	public Function integrand() {
-		afgeleide = new double[formule.length * 2];
-		for (int i = 0; i < array.length / 2; i++)	{
-			int j = i * 2;
-			afgeleide[j] = array[j] / (array[j + 1] + 1);
-			afgeleide[j + 1] = array[j + 1] + 1;
+		afgeleide = new double[formule.length + 1];
+		for (int i = 0; i < formule.length; i++)	{
+			afgeleide[i] = formule[i] / (formule.length - i);
 		}
+		afgeleide[formule.length] = 0;
 		return new Polynomial(afgeleide);
 	}
 }
