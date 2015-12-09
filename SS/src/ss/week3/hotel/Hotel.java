@@ -214,33 +214,18 @@ public class Hotel {
 	
 	public Bill getBill(String guestName, int noOfNights, java.io.PrintStream theOutStream) {
 		Bill bill = new Bill(theOutStream);
-		if (guestName == null) {
-			return null;
-		}
-		if (room1.getGuest() != null && room1.getGuest().getName().equals(guestName)) {
-			if (room1 instanceof PricedRoom) {
+		if (guestName != null && getRoom(guestName) != null) {
+			Room billRoom = getRoom(guestName);
+			if (billRoom instanceof PricedRoom) {
 				for (int i = 0; i < noOfNights; i++) {
-					bill.newItem((PricedRoom) room1);
+					bill.newItem((PricedRoom) billRoom);
 				}
-				if (room1.getSafe() instanceof PricedSafe && room1.getSafe().isActive()) {
-					bill.newItem((PricedSafe) room1.getSafe());
+				if (billRoom.getSafe() instanceof PricedSafe && billRoom.getSafe().isActive()) {
+					bill.newItem((PricedSafe) billRoom.getSafe());
 				}
 				return bill;
 			}
 		}
-		
-		if (room2.getGuest() != null && room2.getGuest().getName().equals(guestName)) {
-			if (room2 instanceof PricedRoom) {
-				for (int i = 0; i < noOfNights; i++) {
-					bill.newItem((PricedRoom) room2);
-				}
-				if (room2.getSafe() instanceof PricedSafe && room2.getSafe().isActive()) {
-					bill.newItem((PricedSafe) room2.getSafe());
-				}
-				return bill;
-			}
-		}
-		
 		return null;
 	}
 	
