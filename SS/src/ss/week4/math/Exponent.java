@@ -14,7 +14,7 @@ public class Exponent implements Function, Integrandable {
 
 	@Override
 	public Function derivative() {
-		return new LinearProduct(n, new Exponent(n - 1));
+		return new LinearProduct(new Constant(n), new Exponent(n - 1));
 	}
 	public String toString()	{
 		return "x^" + n;
@@ -22,6 +22,6 @@ public class Exponent implements Function, Integrandable {
 
 	@Override
 	public Function integrand() {
-		return new Product(new Constant(1 / (n + 1)), new Exponent(n + 1));
+		return new Product(new Constant(1.0 / (n + 1)), new Exponent(n + 1));
 	}
 }

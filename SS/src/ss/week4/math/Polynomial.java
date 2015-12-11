@@ -1,17 +1,14 @@
 package ss.week4.math;
 
 public class Polynomial implements Function, Integrandable {
-	public double[] formule;
-	private double sum;
-	private double[] afgeleide;
-	private String tekst;
+	private double[] formule;
 	public Polynomial(double[] n)	{
 		formule = n;
 	}
 
 	@Override
 	public double apply(double x) {
-		sum = 0;
+		double sum = 0;
 		for (int i = 0; i < formule.length; i++)	{
 			sum += formule[i] * new Exponent(formule.length - i - 1).apply(x);
 		}
@@ -20,7 +17,7 @@ public class Polynomial implements Function, Integrandable {
 
 	@Override
 	public Function derivative() {
-		afgeleide = new double[formule.length - 1];
+		double[] afgeleide = new double[formule.length - 1];
 		for (int i = 0; i < afgeleide.length; i++)	{
 			afgeleide[i] = formule[i] * (formule.length - i - 1);
 		}
@@ -28,8 +25,7 @@ public class Polynomial implements Function, Integrandable {
 	}
 	
 	public String toString()	{
-		//@requires formule.length > 0;
-		tekst = formule[0] + " * x^" + (formule.length - 1);
+		String tekst = formule[0] + " * x^" + (formule.length - 1);
 		for (int i = 1; i < formule.length; i++)	{
 			tekst = tekst + " + " + formule[i] + " * x^" + (formule.length - i - 1);
 		}
@@ -38,11 +34,11 @@ public class Polynomial implements Function, Integrandable {
 
 	@Override
 	public Function integrand() {
-		afgeleide = new double[formule.length + 1];
+		double[] primitieve = new double[formule.length + 1];
 		for (int i = 0; i < formule.length; i++)	{
-			afgeleide[i] = formule[i] / (formule.length - i);
+			primitieve[i] = formule[i] / (formule.length - i);
 		}
-		afgeleide[formule.length] = 0;
-		return new Polynomial(afgeleide);
+		primitieve[formule.length] = 0;
+		return new Polynomial(primitieve);
 	}
 }

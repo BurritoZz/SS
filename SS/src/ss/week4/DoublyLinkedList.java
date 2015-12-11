@@ -35,7 +35,7 @@ public class DoublyLinkedList<Element> {
     	if (index == 0)	{
     		p.previous = p;
     	}
-    	if (index == this.size() - 1)	{
+    	if (index == size - 1)	{
     		p.next = p;
     	}
     }
