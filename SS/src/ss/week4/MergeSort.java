@@ -22,11 +22,12 @@ public class MergeSort {
     				fi++;
     			} else {
     				res.add(snd.get(si));
+    				si++;
     			}
     		}
-    		if (fi <= fst.size() - 1)	{
+    		if (fi < fst.size())	{
     			res.addAll(fst.subList(fi, fst.size()));
-    		} else if (si <= snd.size() - 1)	{
+    		} else if (si < snd.size())	{
     			res.addAll(snd.subList(si, snd.size()));
     		}
     		return res;

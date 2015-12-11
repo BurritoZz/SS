@@ -16,7 +16,6 @@ public class LinkedListTest {
     @Before
     public void setUp() {
         list = new LinkedList<>();
-
         object1 = new Object();
         object2 = new Object();
         object3 = new Object();
