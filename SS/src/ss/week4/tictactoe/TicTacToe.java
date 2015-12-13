@@ -9,4 +9,9 @@ package ss.week4.tictactoe;
  */
 public class TicTacToe {
     public static void main(String[] args) {
-        // TODO: implement, see P-4.21
+    	Player player1 = new HumanPlayer("Max", Mark.OO);
+    	Player player2 = new HumanPlayer("Floor", Mark.XX);
+    	Game game = new Game(player1, player2);
+    	game.start();
+    }
+}

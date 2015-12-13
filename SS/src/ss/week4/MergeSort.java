@@ -9,7 +9,7 @@ public class MergeSort {
     		return list;
     	}
     	List<Elem> fst = list.subList(0, list.size() / 2);
-    	List<Elem> snd = list.subList(list.size() / 2, list.size() - 1);
+    	List<Elem> snd = list.subList(list.size() / 2, list.size());
     	fst = mergesort(fst);
     	snd = mergesort(snd);
     	List<Elem> res = new ArrayList<Elem>(); 
@@ -26,9 +26,9 @@ public class MergeSort {
     		}
     	}
     	if (fi <= fst.size() - 1) {
-    		res.addAll(fst.subList(fi, fst.size() - 1));
+    		res.addAll(fst.subList(fi, fst.size()));
     	} else if (si <= snd.size() - 1) {
-    		res.addAll(snd.subList(si, snd.size() - 1));
+    		res.addAll(snd.subList(si, snd.size()));
     	}
     	return res;
     }

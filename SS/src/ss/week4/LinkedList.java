@@ -5,8 +5,8 @@ public class LinkedList<Element> {
     private /*@ spec_public @*/ int size;
     private Node first;
 
-    //@ ensures \result.size == 0;
-    public LinkedList () {
+    // ensures \result.size == 0;
+    public LinkedList() {
         size = 0;
         first = null;
     }
@@ -17,20 +17,44 @@ public class LinkedList<Element> {
             newNode.next = first;
             first = newNode;
         } else {
-            Node p = getNode(index-1);
+            Node p = getNode(index - 1);
             newNode.next = p.next;
             p.next = newNode;
         }
         size = size + 1;
     }
-
+// o = de vOrige; p/r = PRecies de goede; q = de volQende.
     //@ ensures this.size == \old(size) - 1;
     public void remove(Element element) {
-        // TODO: implement, see exercise P-4.18
+    	Node o = findBefore(element);
+        if (o != null)	{
+        	Node q = o.next.next;
+        	if (q.equals(o) || q.equals(o.next) || q == null)	{
+            	o.next = o;
+        	} else {
+        		o.next = q;
+        	}
+        	size--;
+        } else if (get(0).equals(element))	{
+        	Node p = getNode(0);
+        	Node q = getNode(1);
+        	first = q;
+        	p.next = null;
+        	size--;
+        }
     }
 
     public Node findBefore(Element element) {
-        // TODO: implement, see exercise P-4.18
+    	int r = -1;
+        for (int i = 0; i < size && r == -1; i++)	{
+        	if (element.equals(get(i)))	{
+        		r = i;
+        	}
+        }
+        if (r > 0)	{
+        	return getNode(r - 1);
+        }
+        return null;
     }
 
     //@ requires 0 <= index && index < this.size();

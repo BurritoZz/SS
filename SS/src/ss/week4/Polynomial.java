@@ -2,9 +2,8 @@ package ss.week4;
 
 public class Polynomial implements Function {
 
-	public LinearProduct[] products;
-	public Function[] derivative;
-	public double[] doubles;
+	private LinearProduct[] products;
+	private double[] doubles;
 
 	public Polynomial(double[] array) {
 		products = new LinearProduct[array.length];
@@ -42,8 +41,8 @@ public class Polynomial implements Function {
 		return sum;
 	}*/
 	public Function derivative() {
-		derivative = new Function[doubles.length / 2 ];
-		Sum sum = null;
+		Function[] derivative = new Function[doubles.length / 2 ];
+		Sum sum = new Sum(new Constant(0), new Constant(0));
 		for (int i = 0; i < doubles.length - 1; i++) {
 			sum = new Sum(sum, new Product(new Constant(doubles[i]), new Constant(doubles.length - 1 - i)).derivative());
 		}
