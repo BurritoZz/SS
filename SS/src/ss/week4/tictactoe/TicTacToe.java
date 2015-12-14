@@ -13,13 +13,13 @@ public class TicTacToe {
 	public static void main(String[] args) {
 		Player s0 = null;
 		Player s1 = null;
-		/*if (args.length < 2) {
+		if (args.length < 2) {
 			args = new String[2];
 			args[0] = "Max";
 			args[1] = "Rik";
 		} else if (args[0].startsWith("-")) {
 			if (args[0].equals("-S")) {
-				s0 = new ComputerPlayer(Mark.XX);
+				s0 = new ComputerPlayer(Mark.XX, new SmartStrategy());
 			} else {
 				s0 = new ComputerPlayer(Mark.XX);
 			}
@@ -28,15 +28,13 @@ public class TicTacToe {
 		}
 		if (args[1].startsWith("-"))	{
     		if (args[1].equals("-S"))	{
-    			s1 = new ComputerPlayer(Mark.OO);
+    			s1 = new ComputerPlayer(Mark.OO, new SmartStrategy());
     		} else {
     			s1 = new ComputerPlayer(Mark.OO);
     		}
-    	} else {
+		} else {
     		s1 = new HumanPlayer(args[1], Mark.OO);
-    	}*/
-		s0 = new ComputerPlayer(Mark.XX);
-		s1 = new HumanPlayer("Max", Mark.OO);
+		}
 		Game game = new Game(s0, s1);
 		game.start();
 	}

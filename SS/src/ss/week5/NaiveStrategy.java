@@ -31,12 +31,11 @@ public class NaiveStrategy implements Strategy {
 	 */
 	@Override
 	public int determineMove(Board b, Mark m) {
-		int rand = (int) Math.rint(Math.random() * (b.DIM * b.DIM - 1));
-		if (b.isEmptyField(rand)) {
-			return rand;
-		} else {
-			determineMove(b, m);
-		}
-		return -1;
+	    while (true) {
+		    int rand = (int) Math.rint(Math.random() * (b.DIM * b.DIM - 1));
+		    if (b.isField(rand) && b.isEmptyField(rand)) {
+		        return rand;
+		    }
+	    }
 	}
 }
