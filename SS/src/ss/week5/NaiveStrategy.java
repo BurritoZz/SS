@@ -5,7 +5,6 @@ package ss.week5;
 
 import ss.week4.tictactoe.Board;
 import ss.week4.tictactoe.Mark;
-import java.util.Set;
 
 /**
  * @author max
@@ -14,29 +13,30 @@ import java.util.Set;
 public class NaiveStrategy implements Strategy {
 
 	private String name = "Naive";
-	
-	/**
-	 * Creates a NaiveStrategy.
-	 */
-	public NaiveStrategy() {
-		Set fields = new Set();
-	}
 
-	/* (non-Javadoc)
-	 * @see ss.week5.Strategy#getName()
+	/**
+	 * Returns the name of the strategy.
+	 * @return Returns the name of the strategy.
 	 */
 	@Override
 	public String getName() {
 		return name;
 	}
 
-	/* (non-Javadoc)
-	 * @see ss.week5.Strategy#determineMove(ss.week4.tictactoe.Board, ss.week4.tictactoe.Mark)
+	/**
+	 * Generates random possible move.
+	 * @param Board b - Board on which the game is played.
+	 * @param Mark m - The mark used by the player.
+	 * @return returns a valid move, or -1 if it failed (which should be impossible).
 	 */
 	@Override
 	public int determineMove(Board b, Mark m) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rand = (int) Math.rint(Math.random() * (b.DIM * b.DIM - 1));
+		if (b.isEmptyField(rand)) {
+			return rand;
+		} else {
+			determineMove(b, m);
+		}
+		return -1;
 	}
-
 }
