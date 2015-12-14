@@ -95,9 +95,8 @@ public class Game {
         String answer;
         do {
             System.out.print(prompt);
-            try (Scanner in = new Scanner(System.in)) {
-                answer = in.hasNextLine() ? in.nextLine() : null;
-            }
+            Scanner in = new Scanner(System.in);
+            answer = in.hasNextLine() ? in.nextLine() : null;
         } while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
         return answer.equals(yes);
     }
@@ -144,10 +143,8 @@ public class Game {
      */
     private void printResult() {
         if (board.hasWinner()) {
-            Player winner = board.isWinner(players[0].getMark()) ? players[0]
-                    : players[1];
-            System.out.println("Speler " + winner.getName() + " ("
-                    + winner.getMark().toString() + ") has won!");
+            Player winner = board.isWinner(players[0].getMark()) ? players[0] : players[1];
+            System.out.println("Speler " + winner.getName() + " (" + winner.getMark().toString() + ") has won!");
         } else {
             System.out.println("Draw. There is no winner!");
         }
