@@ -95,9 +95,9 @@ public class Game {
         String answer;
         do {
             System.out.print(prompt);
-            try (Scanner in = new Scanner(System.in)) {
-                answer = in.hasNextLine() ? in.nextLine() : null;
-            }
+            Scanner in = new Scanner(System.in);
+            answer = in.hasNextLine() ? in.nextLine() : null;
+            
         } while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
         return answer.equals(yes);
     }
@@ -118,7 +118,7 @@ public class Game {
      * the changed game situation is printed.
      */
     private void play() {
-    	while (!board.hasWinner()) {
+    	while (!board.hasWinner() && !board.isFull()) {
     		update();
     		board.setField(players[current].determineMove(board), players[current].getMark());
     		current++;

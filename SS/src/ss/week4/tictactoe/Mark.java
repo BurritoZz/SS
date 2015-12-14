@@ -31,4 +31,17 @@ public enum Mark {
             return EMPTY;
         }
     }
+    
+    public String toString() {
+    	if (this == XX) {
+    		return "X";
+    	}
+    	if (this == OO) {
+    		return "O";
+    	} else {
+    		return " ";
+    	}
+    	
+    }
+    
 }

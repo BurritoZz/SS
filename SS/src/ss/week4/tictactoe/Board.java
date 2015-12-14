@@ -29,6 +29,7 @@ public class Board {
      */
     //@ ensures (\forall int i; 0 <= i & i < DIM * DIM; this.getField(i) == Mark.EMPTY);
     public Board() {
+    	fields = new Mark[DIM * DIM];
     	for (int i = 0; i < DIM * DIM; i++) {
     		fields[i] = Mark.EMPTY;
     	}
