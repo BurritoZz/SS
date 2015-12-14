@@ -11,7 +11,6 @@ public class MapUtil {
     public static <K, V> boolean isOneOnOne(Map<K, V> map) {
     	Object[] keys = map.keySet().toArray(new Object[map.size()]);
     	Object[] values = new Object[map.size()];
-    	
     	for (int i = 0; i < keys.length; i++) {
     		for (int i2 = 0; i2 < map.size(); i2++) {
     			if (values[i2] != null && values[i2].equals(map.get(keys[i]))) {
@@ -38,6 +37,7 @@ public class MapUtil {
         }
         return true;
     }
+    //@ requires map != null;
     public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
     	Map<V, Set<K>> resultaat = new HashMap<V, Set<K>>();
     	for (K key : map.keySet())	{
@@ -49,6 +49,7 @@ public class MapUtil {
     	}
     	return resultaat;
 	}
+    //@ requires map != null;
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
         Map<V, K> resultaat = new HashMap<V, K>();
         if (isOneOnOne(map))	{
@@ -57,16 +58,26 @@ public class MapUtil {
         		resultaat.put(value, key);
         	}
         } else {
-        	resultaat = (Map<V, K>) inverse(map);
+        	return null;
         }
         return resultaat;
 	}
 	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
-        // TODO: implement, see exercise P-5.4
-        return false;
+        for (V value : f.values())	{
+        	if (!g.containsKey(value))	{
+        		return false;
+        	}
+        }
+        return true;
 	}
 	public static <K, V, W> Map<K, W> compose(Map<K, V> f, Map<V, W> g) {
-        // TODO: implement, see exercise P-5.5
+        if (compatible(f, g))	{
+        	HashMap<K, W> resultaat = new HashMap<K, W>();
+        	for (K key : f.keySet())	{
+        		resultaat.put(key, g.get(f.get(key)));
+        	}
+        	return resultaat;
+        }
         return null;
 	}
 }

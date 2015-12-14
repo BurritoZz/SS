@@ -15,7 +15,7 @@ public class TicTacToe {
     	if (args.length < 1)	{
     		args = new String[2];
     		args[0] = "Rik";
-    		args[1] = "-S";
+    		args[1] = "-N";
     	}
     	if (args[0].startsWith("-"))	{
     		if (args[0].equals("-S"))	{
