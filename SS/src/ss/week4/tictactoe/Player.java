@@ -12,8 +12,8 @@ public abstract class Player {
 
     // -- Instance variables -----------------------------------------
 
-    private String name;
-    private Mark mark;
+    protected String name;
+    protected Mark mark;
 
     // -- Constructors -----------------------------------------------
 
