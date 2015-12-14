@@ -26,8 +26,15 @@ public class MapUtil {
         return true;
     }
     public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
-        // TODO: implement, see exercise P-5.3
-        return null;
+    	Map<V, Set<K>> resultaat = new HashMap<V, Set<K>>();
+    	for (K key : map.keySet())	{
+    		V value = map.get(key);
+    		if (!resultaat.containsKey(value))	{
+    			resultaat.put(value, new HashSet<K>());
+    		}
+    		resultaat.get(value).add(key);
+    	}
+    	return resultaat;
 	}
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
         // TODO: implement, see exercise P-5.3

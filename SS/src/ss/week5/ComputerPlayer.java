@@ -10,8 +10,7 @@ public class ComputerPlayer extends Player {
 		this.strategy = strategy;
 	}
 	public ComputerPlayer(Mark mark) {
-		super(new NaiveStrategy().getName() + "-" + mark, mark);
-		strategy = new NaiveStrategy();
+		this(mark, new NaiveStrategy());
 	}
 
 	@Override

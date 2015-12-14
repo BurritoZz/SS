@@ -70,11 +70,10 @@ public class HumanPlayer extends Player {
         Scanner line = new Scanner(System.in);
         do {
             System.out.print(prompt);
-            try (Scanner scannerLine = new Scanner(line.nextLine());) {
+            Scanner scannerLine = new Scanner(line.nextLine());
                 if (scannerLine.hasNextInt()) {
                     intRead = true;
                     value = scannerLine.nextInt();
-                }
             }
         } while (!intRead);
         return value;
