@@ -6,8 +6,21 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapUtil {
+	//@ requires map != null;
+	//@ ensures \result instanceOf boolean;
     public static <K, V> boolean isOneOnOne(Map<K, V> map) {
-		return false;
+    	Object[] keys = map.keySet().toArray(new Object[map.size()]);
+    	Object[] values = new Object[map.size()];
+    	
+    	for (int i = 0; i < keys.length; i++) {
+    		for (int i2 = 0; i2 < map.size(); i2++) {
+    			if (values[i2] != null && values[i2].equals(map.get(keys[i]))) {
+    				return false;
+    			}
+    		}
+   			values[i] = map.get(keys[i]);
+    	}
+        return true;
     }
     //@ requires map != null;
     //@ requires range != null;
@@ -37,8 +50,16 @@ public class MapUtil {
     	return resultaat;
 	}
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
-        // TODO: implement, see exercise P-5.3
-        return null;
+        Map<V, K> resultaat = new HashMap<V, K>();
+        if (isOneOnOne(map))	{
+        	for (K key : map.keySet())	{
+        		V value = map.get(key);
+        		resultaat.put(value, key);
+        	}
+        } else {
+        	resultaat = (Map<V, K>) inverse(map);
+        }
+        return resultaat;
 	}
 	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
         // TODO: implement, see exercise P-5.4
