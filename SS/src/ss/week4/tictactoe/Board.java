@@ -151,9 +151,8 @@ public class Board {
     	while (0 <= i && i < DIM * DIM)	{
     		if (fields[i] == Mark.EMPTY)	{
     			return false;
-    		} else {
-    			i++;
     		}
+    		i++;
     	}
     	return true;
     }

@@ -10,8 +10,7 @@ public class SmartStrategy implements Strategy {
 	}
 
 	@Override
-	//@ requires b.DIM > 7;
-	/*@ pure */ public int determineMove(Board b, Mark m) {
+	public int determineMove(Board b, Mark m) {
 		// Midden
 		if (b.isEmptyField(4))	{
 			return 4;
