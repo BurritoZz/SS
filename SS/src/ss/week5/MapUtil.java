@@ -8,6 +8,7 @@ import java.util.Set;
 public class MapUtil {
 	//@ requires map != null;
 	//@ ensures \result instanceOf boolean;
+	//@ ensures \result == (\forall K x1, x2; map.keySet().contains(x1) && map.keySet().contains(x2) && x1 != x2; map.get(x1) != map.get(x2));
     public static <K, V> boolean isOneOnOne(Map<K, V> map) {
     	Object[] keys = map.keySet().toArray(new Object[map.size()]);
     	Object[] values = new Object[map.size()];
@@ -62,6 +63,8 @@ public class MapUtil {
         }
         return resultaat;
 	}
+	
+	//@ ensures (\forall V value; f.containsValue(value); g.containsKey(value)) ==> \result;
 	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
         for (V value : f.values())	{
         	if (!g.containsKey(value))	{
@@ -70,6 +73,9 @@ public class MapUtil {
         }
         return true;
 	}
+	
+	//@ requires compatible(f, g);
+	//@ ensures (\forall K x; \result.containsKey(x); \result.get(x).equals(g.get(f.get(x))));
 	public static <K, V, W> Map<K, W> compose(Map<K, V> f, Map<V, W> g) {
         if (compatible(f, g))	{
         	HashMap<K, W> resultaat = new HashMap<K, W>();
