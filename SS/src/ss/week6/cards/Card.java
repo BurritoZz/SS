@@ -1,7 +1,20 @@
 package ss.week6.cards;
 
-public class Card
-{
+import java.io.BufferedReader;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Serializable;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+public class Card implements Serializable	{
 
 	// ---- constants -----------------------------------
 
@@ -27,7 +40,25 @@ public class Card
 	    "Hearts", "Spades"};
 
 	// ---- class methods -------------------------------------
-
+	private static PrintWriter output;
+	
+	public static void main(String[] args)	{
+		try	{
+			output = new PrintWriter(args[0]);
+		} catch (FileNotFoundException | IndexOutOfBoundsException e)	{
+			output = new PrintWriter(System.out);
+		}
+		Card card1 = new Card('C', 'J');
+		Card card2 = new Card('S', 'Q');
+		Card card3 = new Card('H', '3');
+		Card card4 = new Card('D', '7');
+		card1.write(output);
+		card2.write(output);
+		card3.write(output);
+		card4.write(output);
+		output.close();
+	}
+	
 	/**
 	 * Translates a char encoding of rank into it's String representation.
 	 * @return the String representation of rank
@@ -52,6 +83,62 @@ public class Card
 		for (i = 0; i < 4 && SUIT_CHARACTERS[i] != suit; i++)
 			;
 		return (i == 4) ? null : SUIT_STRINGS[i];
+	}
+	
+	public void write(PrintWriter output)	{
+		output.println(this.toString());
+	}
+	
+	public void write(DataOutput out) throws IOException	{
+		out.writeChar(suit);
+		out.writeChar(rank);
+	}
+	
+	public void write(ObjectOutput out) throws IOException	{
+		out.writeObject(this);
+	}
+	
+
+	public static Card read(BufferedReader in) throws EOFException	{
+		String regel;
+		try	{
+			regel = in.readLine();
+			Scanner kaartlezer = new Scanner(regel);
+			char s = suitString2Char(kaartlezer.next());
+			char r = rankString2Char(kaartlezer.next());
+			kaartlezer.close();
+			if (s != '?' && r != '?')	{
+				return new Card(s, r);
+			} else {
+				return null;
+			}
+		} catch (IOException | NoSuchElementException e)	{
+			return null;
+		}
+	}
+	
+	public static Card read(DataInput in) throws EOFException	{
+		char s;
+		char r;
+		try	{
+			s = in.readChar();
+			r = in.readChar();
+			if (isValidSuit(s) && isValidRank(r))	{
+				return new Card(s, r);
+			} else {
+				return null;
+			}
+		} catch (IOException | NoSuchElementException e)	{
+			return null;
+		}
+	}
+	
+	public static Card read(ObjectInput in) throws EOFException	{
+		try	{
+			return (Card) in.readObject();
+		} catch (IOException | ClassNotFoundException e)	{
+			return null;
+		}
 	}
 
 	/**
@@ -320,4 +407,5 @@ public class Card
 	public boolean isInRankBefore(Card card) {
 		return isRankFollowing(this.getRank(), card.getRank());
 	}
+
 }
