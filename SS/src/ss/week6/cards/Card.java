@@ -1,6 +1,20 @@
 package ss.week6.cards;
 
-public class Card
+import java.io.BufferedReader;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.util.Scanner;
+
+public class Card implements Serializable
 {
 
 	// ---- constants -----------------------------------
@@ -27,6 +41,20 @@ public class Card
 	    "Hearts", "Spades"};
 
 	// ---- class methods -------------------------------------
+
+	public static void main(String[] args) {
+	    Card card1 = new Card('C', '7');
+	    Card card2 = new Card('D', '8');
+	    PrintWriter pw = new PrintWriter(System.out);
+	    try {
+			pw = new PrintWriter(new FileWriter(args[0]), true);
+	    } catch (IndexOutOfBoundsException | IOException e) {
+			e.printStackTrace(System.out);
+	    }
+	    card1.write(pw);
+	    card2.write(pw);
+	    pw.close();
+	}
 
 	/**
 	 * Translates a char encoding of rank into it's String representation.
@@ -159,6 +187,65 @@ public class Card
 			result = r2 == r1 + 1;
 		}
 		return result;
+	}
+
+	public void write(PrintWriter pw) {
+	    pw.println(toString());
+	}
+	
+	public void write(DataOutput out) {
+	    try {
+		out.writeChar(getSuit());
+		out.writeChar(getRank());
+	    } catch (IOException e) {
+		e.printStackTrace(System.out);
+	    }
+	}
+	
+	public void write(ObjectOutput out) throws IOException {
+	    out.writeObject(this);
+	}
+
+	public static Card read(BufferedReader in) throws EOFException {
+	    String line;
+	    try {
+		line = in.readLine();
+		if (line == null) {
+		    throw new EOFException();
+		}
+		Scanner scanner = new Scanner(line);
+		if (scanner.hasNext()) {
+		    Card card = new Card(suitString2Char(scanner.next()), rankString2Char(scanner.next()));
+		    scanner.close();
+		    return card;
+		}
+		scanner.close();
+	    } catch (IOException e){
+		e.printStackTrace(System.out);
+	    }
+	    return null;
+	}
+	
+	public static Card read(DataInput in) throws EOFException {
+	    try {
+		char suit = in.readChar();
+		char rank = in.readChar();
+		if (suit != '\u0000' && rank != '\u0000' && isValidSuit(suit) && isValidRank(rank)) {
+		  return new Card(suit, rank);  
+		}
+	    } catch (IOException e) {
+		e.printStackTrace(System.out);
+	    }
+	    return null;
+	}
+	
+	public static Card read(ObjectInput in) {
+	    try {
+		return ((Card) in.readObject());
+	    } catch (IOException | ClassNotFoundException e) {
+		e.printStackTrace(System.out);
+	    }
+	    return null;
 	}
 	
 	// ---- instance variabeles -----------------------------------

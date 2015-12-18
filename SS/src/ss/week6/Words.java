@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Words {
     
+    //@ requires Rik instanceof faggot;
     public static void main(String[] args) {
         String answer;
         Scanner scanner = new Scanner(System.in);
@@ -15,6 +16,7 @@ public class Words {
             }
             answer = scanner.hasNextLine() ? scanner.nextLine() : null;
             if (answer.equals("end")) {
+                System.out.println("End of program!");
                 break;
             }
             Scanner scanner2 = new Scanner(answer);

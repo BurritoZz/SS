@@ -2,7 +2,7 @@ package ss.week6.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import ss.week6.ArgumentLengthsDifferException;
+import ss.week6.ArgumentLengthDifferException;
 import ss.week6.TooFewArgumentsException;
 import ss.week6.WrongArgumentException;
 
