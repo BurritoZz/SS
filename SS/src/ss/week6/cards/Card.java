@@ -5,6 +5,8 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.EOFException;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -44,9 +46,9 @@ public class Card implements Serializable	{
 	
 	public static void main(String[] args)	{
 		try	{
-			output = new PrintWriter(args[0]);
-		} catch (FileNotFoundException | IndexOutOfBoundsException e)	{
-			output = new PrintWriter(System.out);
+			output = new PrintWriter(new FileWriter(args[0]), true);
+		} catch (IndexOutOfBoundsException | IOException e)	{
+			output = new PrintWriter(System.out, true);
 		}
 		Card card1 = new Card('C', 'J');
 		Card card2 = new Card('S', 'Q');
@@ -103,6 +105,9 @@ public class Card implements Serializable	{
 		String regel;
 		try	{
 			regel = in.readLine();
+			if (regel == null)	{
+				throw new EOFException();
+			}
 			Scanner kaartlezer = new Scanner(regel);
 			char s = suitString2Char(kaartlezer.next());
 			char r = rankString2Char(kaartlezer.next());
@@ -123,6 +128,9 @@ public class Card implements Serializable	{
 		try	{
 			s = in.readChar();
 			r = in.readChar();
+			if (s == '\u0000' || r == '\u0000')	{
+				throw new EOFException();
+			}
 			if (isValidSuit(s) && isValidRank(r))	{
 				return new Card(s, r);
 			} else {

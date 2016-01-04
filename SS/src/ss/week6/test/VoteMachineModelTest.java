@@ -47,7 +47,6 @@ public class VoteMachineModelTest {
     @Test
     public void voteListTest() {
         assertTrue(voteList.getVotes() instanceof Map);
-
         assertEquals(null, voteList.getVotes().get(PARTY1));
         voteList.addVote(PARTY1);
         assertEquals(1, (int) voteList.getVotes().get(PARTY1));
