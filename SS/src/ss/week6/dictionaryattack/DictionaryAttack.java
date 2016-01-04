@@ -1,6 +1,12 @@
 package ss.week6.dictionaryattack;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Map;
+import java.util.Scanner;
+import java.security.MessageDigest;
 
 
 public class DictionaryAttack {
@@ -15,9 +21,15 @@ public class DictionaryAttack {
 	 * filled withthe content of the file. The key for the map should be
 	 * the username, and the password hash should be the content.
 	 * @param filename
+	 * @throws FileNotFoundException 
 	 */
-	public void readPasswords(String filename) {
-		// To implement        
+	public void readPasswords(String filename) throws FileNotFoundException {
+		Scanner file = new Scanner(new DataInputStream(new BufferedInputStream(new FileInputStream(filename))));
+		while (file.hasNextLine())	{
+			String[] regel = file.nextLine().split(": ");
+			passwordMap.put(regel[0], regel[1]);
+		}
+		file.close();
 	}
 
 	/**
@@ -27,8 +39,7 @@ public class DictionaryAttack {
 	 * @return
 	 */
 	public String getPasswordHash(String password) {
-    		// To implement
-    		return null;
+    	//TODO
 	}
 	/**
 	 * Checks the password for the user the password list. If the user
@@ -48,7 +59,7 @@ public class DictionaryAttack {
      * the original password.
 	 * @param filename filename of the dictionary.
 	 */
-    	public void addToHashDictionary(String filename) {
+    public void addToHashDictionary(String filename) {
         // To implement        
     }
 	/**
