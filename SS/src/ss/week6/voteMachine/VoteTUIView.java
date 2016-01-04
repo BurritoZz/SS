@@ -2,10 +2,12 @@ package ss.week6.voteMachine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 
-public class VoteTUIView {
+public class VoteTUIView  implements Observer, VoteView{
 
     VoteMachine vm;
     
@@ -14,11 +16,15 @@ public class VoteTUIView {
     }
 
     public void showVotes(Map<String,Integer> map) {
-	System.out.println(map);
+	for (String k : map.keySet()) {
+	    System.out.println(k + " (" + map.get(k) + ")");
+	}
     }
 
     public void showParties(List<String> list) {
-	System.out.println(list);
+	for (String k : list) {
+	    System.out.println(k);
+	}
     }
 
     public void showError(String e) {
@@ -45,7 +51,7 @@ public class VoteTUIView {
 	   } else if (answer.toUpperCase().equals("PARTIES")) {
 	       showParties(vm.getParties());
 	   } else if (answer.toUpperCase().equals("HELP")) {
-	       System.out.println("HELP ME!!");
+	       System.out.println("Call 911");
 	   } else if (answer.toUpperCase().contains("VOTE")) {
 	       answerpr = scanner2.nextLine();
 	       vm.addVote(answerpr.trim());
@@ -53,9 +59,16 @@ public class VoteTUIView {
 	       answerp1 = scanner2.next();
 	       answerpr = scanner2.nextLine();
 	       vm.addParty(answerpr.trim());
+	   } else {
+	       System.out.println("Error: command not recognised.");
 	   }
 	   scanner2.close();
 	}   
 	scanner.close();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+	System.out.println(arg + " added!");
     }
 }
