@@ -4,14 +4,17 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import org.apache.commons.codec.binary.Hex;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class DictionaryAttack {
-	private Map<String, String> passwordMap;
-	private Map<String, String> hashDictionary;
+	private Map<String, String> passwordMap = new HashMap<String, String>();
+	private Map<String, String> hashDictionary = new HashMap<String, String>();
 
 	/**
 	 * Reads a password file. Each line of the password file has the form:
@@ -37,9 +40,16 @@ public class DictionaryAttack {
 	 * hash (or sometimes called digest) should be hex-encoded in a String.
 	 * @param password
 	 * @return
+	 * @throws NoSuchAlgorithmException 
 	 */
 	public String getPasswordHash(String password) {
-    	//TODO
+		String res = "";
+		try {
+			res = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(password.getBytes()));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 	/**
 	 * Checks the password for the user the password list. If the user
@@ -47,10 +57,14 @@ public class DictionaryAttack {
 	 * @param user
 	 * @param password
 	 * @return whether the password for that user was correct.
+	 * @throws NoSuchAlgorithmException 
 	 */
 	public boolean checkPassword(String user, String password) {
-        // To implement
-		return false;
+        String hash = getPasswordHash(password);
+        if (passwordMap.containsKey(user))	{
+        	return hash.equals(passwordMap.get(user));
+        }
+        return false;
 	}
 
 	/**
@@ -58,19 +72,30 @@ public class DictionaryAttack {
 	 * entries to a dictionary that maps password hashes (hex-encoded) to
      * the original password.
 	 * @param filename filename of the dictionary.
+	 * @throws FileNotFoundException 
 	 */
-    public void addToHashDictionary(String filename) {
-        // To implement        
+    public void addToHashDictionary(String filename) throws FileNotFoundException {
+		Scanner file = new Scanner(new DataInputStream(new BufferedInputStream(new FileInputStream(filename))));
+		while (file.hasNextLine())	{
+			String wachtwoord = file.nextLine();
+			hashDictionary.put(getPasswordHash(wachtwoord), wachtwoord);
+		}
+		file.close();
     }
 	/**
 	 * Do the dictionary attack.
 	 */
 	public void doDictionaryAttack() {
-		// To implement
+		for (String user : passwordMap.keySet())	{
+			if (hashDictionary.containsKey(passwordMap.get(user)))	{
+				System.out.println(user + ": " + hashDictionary.get(passwordMap.get(user)));
+			}
+		}
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		DictionaryAttack da = new DictionaryAttack();
-		// To implement
+		da.readPasswords("LeakedPasswords.txt");
+		da.addToHashDictionary("Passwords.txt");
 		da.doDictionaryAttack();
 	}
 
