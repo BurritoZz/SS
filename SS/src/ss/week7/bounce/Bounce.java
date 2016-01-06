@@ -16,6 +16,18 @@ public class Bounce extends JFrame {
 	private JButton start;
 	private BallPanel ballPanel;
 
+	class BallThread extends Thread	{
+		public void run()	{
+			for (int i = 0; i < 1000; i++)	{
+				ballPanel.addNewBall();
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public Bounce() {
 		setTitle("Bounce");
 		ballPanel = new BallPanel();
@@ -26,7 +38,7 @@ public class Bounce extends JFrame {
 
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				ballPanel.addNewBall();
+				(new BallThread()).start();
 			}
 		});
 		getContentPane().add("South", controlPanel);

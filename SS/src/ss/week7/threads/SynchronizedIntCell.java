@@ -1,26 +1,36 @@
 package ss.week7.threads;
 
 /**
- * Main class for Producer/Consumer program illustrating
- * multiple threads modifying a shared object. 
- * Illustrates the need for synchronisation and the use of wait and notify
- * This program is based on code provided by Deitel and Deitel <br>
- * ("Java How to program", 3rd ed., chapter 15, Prentice hall, 2001)
- * @author Revised by Rieks op den Akker
- * @version january 2002
+ * (hopelijk) Correct communication between IntProducer en IntConsumer.
  */
-public class ProdCons {
-	public static void main(String[] args) {
-		IntCell cell = new SynchronizedIntCell();
-		Thread prod1 = new IntProducer(1, cell);
-		Thread prod2 = new IntProducer(2, cell);
-		Thread cons1 = new IntConsumer(1, cell);
-		Thread cons2 = new IntConsumer(2, cell);
+public class SynchronizedIntCell implements IntCell {
+	private int value = 0;
+	private boolean consumed;
 
-		prod1.start();
-		prod2.start();
-		cons1.start();
-		cons2.start();
+	public synchronized void setValue(int valueArg) {
+		while (!consumed)	{
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		consumed = false;
+		this.value = valueArg;
+		notifyAll();
+	}
+
+	public synchronized int getValue() {
+		while (consumed)	{
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		consumed = true;
+		notifyAll();
+		return value;
 	}
 }
 

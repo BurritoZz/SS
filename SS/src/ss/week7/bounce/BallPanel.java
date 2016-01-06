@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ListIterator;
-
+import javax.swing.Timer;
 import javax.swing.JPanel;
 
 /**
@@ -18,6 +18,8 @@ public class BallPanel extends JPanel implements ActionListener {
 
 	public BallPanel() {
 		balls = new java.util.ArrayList<Ball>();
+		Timer timer = new Timer(5, this);
+		timer.start();
 	}
 
 	/**
@@ -27,18 +29,6 @@ public class BallPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		moveBalls();
 		repaint();
-	}
-
-	public void animate() {
-		try {
-			while (true) {
-				Thread.sleep(5);
-				moveBalls();
-				repaint();
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/** Add a new ball to the ball list and start the timer if not yet running. */
