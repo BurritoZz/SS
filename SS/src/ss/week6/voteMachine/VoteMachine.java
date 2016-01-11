@@ -31,7 +31,7 @@ public class VoteMachine {
 	parties.addParty(party);
     }
     
-    public void addVote(String party) {
+    public void vote(String party) {
 	votes.addVote(party);
     }
     

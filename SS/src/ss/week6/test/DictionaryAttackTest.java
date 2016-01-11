@@ -26,11 +26,7 @@ public class DictionaryAttackTest {
     @Before
     public void setUp() {
         dictionaryAttack = new DictionaryAttack();
-        try {
-            dictionaryAttack.readPasswords(PATH + "LeakedPasswords.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dictionaryAttack.readPasswords(PATH + "LeakedPasswords.txt");
     }
 
     /**
