@@ -9,11 +9,27 @@ public class ConcatThread extends Thread {
     }
 
     public void run() {
-        text = text.concat(toe);
+    	if (toe.equals("one;"))	{
+    		text = text.concat(toe);
+   		} else if (toe.equals("two;"))	{
+   			while (text.equals(""))	{
+   				
+   			}
+    		text = text.concat(toe);
+    	}
     }
 
     public static void main(String[] args) {
-        (new ConcatThread("one;")).start();
-        (new ConcatThread("two;")).start();
+    	Thread t1 = new ConcatThread("one;");
+    	Thread t2 = new ConcatThread("two;");
+    	t1.start();
+    	t2.start();
+		try {
+			t1.join();
+			t2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println(text);
     }
 }
