@@ -26,9 +26,15 @@ public class QuickSortTest {
                 574, 571, 922, 471, 99, 550, 97, 388, 893, 289, 849, 618, 88, 514, 721, 837, 860, 222, 514, 126, 892};
 
         // Change below three lines to test your own multi threaded version
-        QuickSort.qsort(a1);
-        QuickSort.qsort(a2);
-        QuickSort.qsort(a3);
+        QuickSort q1 = new QuickSort(a1);
+        QuickSort q2 = new QuickSort(a2);
+	QuickSort q3 = new QuickSort(a3);
+        q1.start();
+        q2.start();
+        q3.start();
+        q1.join();
+        q2.join();
+        q3.join();
 
         org.junit.Assert.assertArrayEquals(
                 new int[]{5, 24, 28, 33, 48, 59, 59, 66, 78, 90, 97, 99, 112, 144, 144, 146, 147, 147, 149, 153, 154,

@@ -1,7 +1,14 @@
 package ss.week7;
 
 
-public class QuickSort {
+public class QuickSort extends Thread{
+    
+    private int[] a;
+
+    public QuickSort(int[] a) {
+	this.a = a;
+    }
+    
     public static void qsort(int[] a) {
         qsort(a, 0, a.length - 1);
     }
@@ -33,6 +40,10 @@ public class QuickSort {
         int tmp = a[i];
         a[i] = a[j];
         a[j] = tmp;
+    }
+    
+    public void run() {
+	qsort(a);
     }
 
 }

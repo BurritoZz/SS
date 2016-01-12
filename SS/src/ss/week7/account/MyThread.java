@@ -11,5 +11,15 @@ public class MyThread extends Thread{
 	this.frequency = frequency;
 	this.account = account;
     }
+    
+    public void run() {
+	for (int i = 0; i < frequency; i++) {
+	    try {
+		account.transaction(amount);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+	}
+    }
 
 }
