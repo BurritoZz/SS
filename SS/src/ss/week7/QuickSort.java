@@ -4,9 +4,16 @@ package ss.week7;
 public class QuickSort extends Thread{
     
     private int[] a;
+    int first = 0, last = 0;
 
     public QuickSort(int[] a) {
 	this.a = a;
+    }
+    
+    public QuickSort(int[] a, int first, int last) {
+	this.a = a;
+	this.first = first;
+	this.last = last;
     }
     
     public static void qsort(int[] a) {
@@ -15,8 +22,8 @@ public class QuickSort extends Thread{
     public static void qsort(int[] a, int first, int last) {
         if (first < last) {
             int position = partition(a, first, last);
-            qsort(a, first, position - 1);
-            qsort(a, position + 1, last);
+            new Thread(new QuickSort(a, first, position - 1)).start();
+            new Thread(new QuickSort(a, position + 1, last)).start();
         }
     }
     public static int partition(int[] a, int first, int last) {
@@ -43,7 +50,11 @@ public class QuickSort extends Thread{
     }
     
     public void run() {
-	qsort(a);
+	if (first == 0 || last == 0) {
+	    qsort(a);
+	} else {
+	    qsort(a, first, last);
+	}
     }
 
 }

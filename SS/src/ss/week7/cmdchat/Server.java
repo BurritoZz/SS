@@ -30,9 +30,16 @@ public class Server {
 
     private int port;
     private List<ClientHandler> threads;
+    ServerSocket socket;
+    private boolean running = true;
     /** Constructs a new Server object */
     public Server(int portArg) {
-        // TODO insert body
+	this.port = portArg;
+	try {
+	    socket = new ServerSocket(port);
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
     }
     
     /**
@@ -42,7 +49,13 @@ public class Server {
      * communication with the Client.
      */
     public void run() {
-        // TODO insert body
+	while (running) {
+	   try {
+	       addHandler(new ClientHandler(this, socket.accept()));
+	   } catch (IOException e) {
+	       e.printStackTrace();
+	   }
+	}
     }
     
     public void print(String message){
@@ -55,7 +68,9 @@ public class Server {
      * @param msg message that is send
      */
     public void broadcast(String msg) {
-        // TODO insert body
+	for (int i = 0; i < threads.size(); i++) {
+	    threads.get(i).sendMessage(msg);
+	}
     }
     
     /**
@@ -63,7 +78,8 @@ public class Server {
      * @param handler ClientHandler that will be added
      */
     public void addHandler(ClientHandler handler) {
-        // TODO insert body
+        threads.add(handler);
+        handler.start();
     }
     
     /**
@@ -71,6 +87,10 @@ public class Server {
      * @param handler ClientHandler that will be removed
      */
     public void removeHandler(ClientHandler handler) {
-        // TODO insert body
+	for (int i = 0; i < threads.size(); i++) {
+	    if (handler.equals(threads.get(i))) {
+		threads.remove(i);
+	    }
+	}
     }
 }

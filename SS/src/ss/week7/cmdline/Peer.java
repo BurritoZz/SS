@@ -19,7 +19,7 @@ public class Peer implements Runnable {
     protected Socket sock;
     protected BufferedReader in;
     protected BufferedWriter out;
-    public Boolean running;
+    public Boolean running = true;
 
 
     /*@
@@ -42,7 +42,6 @@ public class Peer implements Runnable {
      * writes the characters to the default output.
      */
     public void run() {
-	running = true;
 	while (running) {
 	   try {
 	       if (in.ready()) {
@@ -62,15 +61,17 @@ public class Peer implements Runnable {
      */
     public void handleTerminalInput() {
 	String input = null;
-	input = readString("Send a message or \"exit\" ");
-	if (input.equals("exit")) {
-	    shutDown();
-	} else {
-	    try {
-		out.write(input);
-		out.flush();
-	    } catch (IOException e) {
-		e.printStackTrace();
+	while (running) {
+	    input = readString("Send a message or \"exit\" ");
+	    if (input.equals("exit")) {
+		shutDown();
+	    } else {
+		try {
+		    out.write(input);
+		    out.flush();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
 	    }
 	}
     }

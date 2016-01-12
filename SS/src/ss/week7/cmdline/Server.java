@@ -13,6 +13,7 @@ public class Server {
     private static final String USAGE
         = "usage: " + Server.class.getName() + " <name> <port>";
     private static ServerSocket socket;
+    public static boolean running = true;
 
     /** Starts a Server-application. */
     public static void main(String[] args) {
