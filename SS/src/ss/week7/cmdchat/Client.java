@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
  * @author  Theo Ruys
  * @version 2005.02.21
  */
-public class Client extends Thread{
+public class Client extends Thread	{
 	private static final String USAGE
         = "usage: java week7.cmdchat.Client <name> <address> <port>";
 
@@ -26,8 +26,8 @@ public class Client extends Thread{
 			System.exit(0);
 		}
 		
-		InetAddress host=null;
-		int port =0;
+		InetAddress host = null;
+		int port = 0;
 
 		try {
 			host = InetAddress.getByName(args[1]);
@@ -48,10 +48,10 @@ public class Client extends Thread{
 			client.sendMessage(args[0]);
 			client.start();
 			
-			do{
+			do	{
 				String input = readString("");
 				client.sendMessage(input);
-			}while(true);
+			} while (true);
 			
 		} catch (IOException e) {
 			print("ERROR: couldn't construct a client object!");
@@ -68,9 +68,16 @@ public class Client extends Thread{
 	/**
 	 * Constructs a Client-object and tries to make a socket connection
 	 */
-	public Client(String name, InetAddress host, int port)
-			throws IOException {
-		// TODO insert body
+	public Client(String name, InetAddress host, int port) throws IOException {
+		clientName = name;
+        try {
+            sock = new Socket(host.getHostAddress(), port);
+        	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+        	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+        } catch (IOException e) {
+            System.out.println("ERROR: could not create a socket on " + host.getHostAddress() + " and port " + port);
+        }
+        sendMessage(name);
 	}
 
 	/**
@@ -83,7 +90,11 @@ public class Client extends Thread{
 
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
-		// TODO insert body
+        try {
+			out.write(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/** close the socket connection. */

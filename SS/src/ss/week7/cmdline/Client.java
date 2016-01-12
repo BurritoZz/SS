@@ -57,7 +57,6 @@ public class Client {
         try {
             Peer client = new Peer(name, sock);
             Thread streamInputHandler = new Thread(client);
-            streamInputHandler.start();
             client.handleTerminalInput();
             client.shutDown();
         } catch (IOException e) {

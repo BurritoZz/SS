@@ -19,6 +19,7 @@ public class Peer implements Runnable {
     protected Socket sock;
     protected BufferedReader in;
     protected BufferedWriter out;
+    public Boolean running = true;
 
 
     /*@
@@ -29,8 +30,11 @@ public class Peer implements Runnable {
      * @param   nameArg name of the Peer-proces
      * @param   sockArg Socket of the Peer-proces
      */
-    public Peer(String nameArg, Socket sockArg) throws IOException
-    {
+    public Peer(String nameArg, Socket sockArg) throws IOException {
+	name = nameArg;
+	sock = sockArg;
+	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
     }
 
     /**
@@ -38,6 +42,16 @@ public class Peer implements Runnable {
      * writes the characters to the default output.
      */
     public void run() {
+    	running = true;
+		while (running) {
+			try {
+				if (in.ready()) {
+					System.out.print(in.readLine());
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+	   		}
+		}
     }
 
 
@@ -47,12 +61,32 @@ public class Peer implements Runnable {
      * On Peer.EXIT the method ends
      */
     public void handleTerminalInput() {
+    	String input = null;
+    	input = readString("Send a message or \"exit\" ");
+    	if (input.equals("exit")) {
+    		shutDown();
+    	} else {
+    		try {
+    			out.write(input);
+    			out.flush();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
     }
 
     /**
      * Closes the connection, the sockets will be terminated
      */
     public void shutDown() {
+	try {
+	    running = false;
+	    in.close();
+	    out.close();
+	    sock.close();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
     }
 
     /**  returns name of the peer object*/

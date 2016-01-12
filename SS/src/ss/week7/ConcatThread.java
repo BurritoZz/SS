@@ -22,8 +22,8 @@ public class ConcatThread extends Thread {
     public static void main(String[] args) {
     	Thread t1 = new ConcatThread("one;");
     	Thread t2 = new ConcatThread("two;");
-    	t1.start();
     	t2.start();
+    	t1.start();
 		try {
 			t1.join();
 			t2.join();
