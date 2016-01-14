@@ -26,6 +26,12 @@ public class QuickSort extends Thread {
             Thread twee = new QuickSort(a, position + 1, last);
             een.start();
             twee.start();
+            try {
+				een.join();
+				twee.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
         }
     }
     public static int partition(int[] a, int first, int last) {
