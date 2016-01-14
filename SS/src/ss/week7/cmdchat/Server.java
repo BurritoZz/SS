@@ -3,6 +3,7 @@ package ss.week7.cmdchat;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -34,6 +35,7 @@ public class Server {
     private boolean running = true;
     /** Constructs a new Server object */
     public Server(int portArg) {
+	threads = new ArrayList<ClientHandler>();
 	this.port = portArg;
 	try {
 	    socket = new ServerSocket(port);
@@ -51,7 +53,9 @@ public class Server {
     public void run() {
 	while (running) {
 	   try {
-	       addHandler(new ClientHandler(this, socket.accept()));
+	       ClientHandler temp = new ClientHandler(this, socket.accept());
+	       addHandler(temp);
+	       print("er is een client verbonden");
 	   } catch (IOException e) {
 	       e.printStackTrace();
 	   }
@@ -68,8 +72,11 @@ public class Server {
      * @param msg message that is send
      */
     public void broadcast(String msg) {
-	for (int i = 0; i < threads.size(); i++) {
-	    threads.get(i).sendMessage(msg);
+	print(msg);
+	if (!threads.isEmpty()) {
+	    for (ClientHandler handler : threads) {
+	    	handler.sendMessage(msg);
+	    }
 	}
     }
     
@@ -78,6 +85,12 @@ public class Server {
      * @param handler ClientHandler that will be added
      */
     public void addHandler(ClientHandler handler) {
+	if (threads.equals(null)) {
+	    print("threads is null");
+	}
+	if (handler.equals(null)) {
+	    print("handler is null");
+	}
         threads.add(handler);
         handler.start();
     }
@@ -87,10 +100,7 @@ public class Server {
      * @param handler ClientHandler that will be removed
      */
     public void removeHandler(ClientHandler handler) {
-	for (int i = 0; i < threads.size(); i++) {
-	    if (handler.equals(threads.get(i))) {
-		threads.remove(i);
-	    }
-	}
+	threads.remove(handler);
+	print("Er is een client weggegaan");
     }
 }

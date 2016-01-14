@@ -47,7 +47,9 @@ public class Server {
 	    Peer peer = new Peer(name, socket.accept());
 	    Thread streamInputHandler = new Thread(peer);
 	    streamInputHandler.start();
-	    peer.handleTerminalInput();
+	    while (peer.running) {
+		peer.handleTerminalInput();
+	    }
 	    peer.shutDown();
 	} catch (IOException e) {
 	    e.printStackTrace();

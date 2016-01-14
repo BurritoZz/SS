@@ -17,6 +17,8 @@ public class ClientHandler extends Thread {
     private BufferedReader in;
     private BufferedWriter out;
     private String clientName;
+    private Socket socket;
+    private boolean running = true;
 
     /**
      * Constructs a ClientHandler object
@@ -25,8 +27,9 @@ public class ClientHandler extends Thread {
     //@ requires serverArg != null && sockArg != null;
     public ClientHandler(Server serverArg, Socket sockArg) throws IOException {
 	server = serverArg;
-	in = new BufferedReader(new InputStreamReader(sockArg.getInputStream()));
-	out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream()));
+	socket = sockArg;
+	in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 	announce();
     }
 
@@ -37,7 +40,7 @@ public class ClientHandler extends Thread {
      * be called immediately after the ClientHandler has been constructed.
      */
     public void announce() throws IOException {
-        clientName = in.readLine();
+	clientName = in.readLine();
         server.broadcast("[" + clientName + " has entered]");
     }
 
@@ -50,13 +53,16 @@ public class ClientHandler extends Thread {
      * broken and shutdown() will be called. 
      */
     public void run() {
-	try {
-	    if (in.ready()) {
-	        String message = in.readLine();
-	        server.broadcast(clientName + ": " + message);
+	while (running) {
+	    try {
+		if (in.ready()) {
+		    String message = in.readLine();
+		    server.broadcast(clientName + ": " + message);
+		}
+	    } catch (IOException e) {
+		server.print("Er gaat iets heel erg mis in de run");
+		shutdown();
 	    }
-	} catch (IOException e) {
-	    shutdown();
 	}
     }
 
@@ -69,6 +75,8 @@ public class ClientHandler extends Thread {
     public void sendMessage(String msg) {
 	try {
 	    out.write(msg);
+	    out.newLine();
+	    out.flush();
 	} catch (IOException e) {
 	    shutdown();
 	}
@@ -80,7 +88,15 @@ public class ClientHandler extends Thread {
      * is no longer participating in the chat. 
      */
     private void shutdown() {
-        server.removeHandler(this);
+	running = false;
+	try {
+	    in.close();
+	    out.close();
+	    socket.close();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	server.removeHandler(this);
         server.broadcast("[" + clientName + " has left]");
     }
 }

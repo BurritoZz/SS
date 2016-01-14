@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -49,7 +50,7 @@ public class Client extends Thread{
 			client.start();
 			
 			do{
-				String input = readString("Your message: ");
+				String input = readString("");
 				client.sendMessage(input);
 			}while(running);
 			
@@ -63,7 +64,7 @@ public class Client extends Thread{
 	private String clientName;
 	private Socket sock;
 	private BufferedReader in;
-	private BufferedWriter out;
+	private PrintWriter out;
 	private static boolean running = true;
 
 	/**
@@ -74,7 +75,7 @@ public class Client extends Thread{
 	    clientName = name;
 	    sock = new Socket(host, port);
 	    in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-	    out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+	    out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
 	}
 
 	/**
@@ -96,25 +97,21 @@ public class Client extends Thread{
 
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
-	    try {
-		if (msg.equals("exit")) {
-		    shutdown();
-		} else {
-		    out.write(msg);
-		}
-	    } catch (IOException e) {
-		e.printStackTrace();
+	    if (msg.equals("exit")) {
+	        shutdown();
+	    } else {
+	        out.println(msg);
+	        out.flush();
 	    }
 	}
 
 	/** close the socket connection. */
 	public void shutdown() {
 		print("Closing socket connection...");
+		running = false;
 		try {
-		    running = false;
 		    in.close();
 		    out.close();
-		    sock.close();
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
