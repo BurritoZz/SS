@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -18,7 +19,7 @@ public class Peer implements Runnable {
     protected String name;
     protected Socket sock;
     protected BufferedReader in;
-    protected BufferedWriter out;
+    protected PrintWriter out;
     public Boolean running = true;
 
 
@@ -34,7 +35,7 @@ public class Peer implements Runnable {
 	name = nameArg;
 	sock = sockArg;
 	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+	out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
     }
 
     /**
@@ -42,16 +43,15 @@ public class Peer implements Runnable {
      * writes the characters to the default output.
      */
     public void run() {
-    	running = true;
-		while (running) {
-			try {
-				if (in.ready()) {
-					System.out.print(in.readLine());
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-	   		}
-		}
+	while (running) {
+	   try {
+	       if (in.ready()) {
+		   System.out.print(in.readLine());
+	       }
+	   } catch (IOException e) {
+	       e.printStackTrace();
+	   }
+	}
     }
 
 
@@ -61,18 +61,16 @@ public class Peer implements Runnable {
      * On Peer.EXIT the method ends
      */
     public void handleTerminalInput() {
-    	String input = null;
-    	input = readString("Send a message or \"exit\" ");
-    	if (input.equals("exit")) {
-    		shutDown();
-    	} else {
-    		try {
-    			out.write(input);
-    			out.flush();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-    	}
+	String input = null;
+	while (running) {
+	    input = readString("Send a message or \"exit\" ");
+	    if (input.equals("exit")) {
+		shutDown();
+	    } else {
+		 out.println(input);
+		 out.flush();
+	    }
+	}
     }
 
     /**

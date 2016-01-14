@@ -3,6 +3,7 @@ package ss.week7.cmdchat;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -12,8 +13,10 @@ import java.util.Vector;
  * @version 2005.02.21
  */
 public class Server {
-    private static final String USAGE
-            = "usage: " + Server.class.getName() + " <port>";
+    private static final String USAGE = "usage: " + Server.class.getName() + " <port>";
+    private ServerSocket socket;
+    private boolean running;
+    private static Server server;
 
     /** Start een Server-applicatie op. */
     public static void main(String[] args) {
@@ -21,8 +24,7 @@ public class Server {
             System.out.println(USAGE);
             System.exit(0);
         }
-        
-        Server server = new Server(Integer.parseInt(args[0]));
+        server = new Server(Integer.parseInt(args[0]));
         server.run();
         
     }
@@ -32,7 +34,13 @@ public class Server {
     private List<ClientHandler> threads;
     /** Constructs a new Server object */
     public Server(int portArg) {
-        // TODO insert body
+    	threads = new ArrayList<ClientHandler>();
+    	try {
+			socket = new ServerSocket(portArg);
+			running = true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -42,10 +50,19 @@ public class Server {
      * communication with the Client.
      */
     public void run() {
-        // TODO insert body
+        while (running)	{
+        	try {
+        		ClientHandler handler = new ClientHandler(this, socket.accept());
+				addHandler(handler);
+				handler.start();
+				print("Er is een client toegevoegd");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
     }
     
-    public void print(String message){
+    public void print(String message)	{
         System.out.println(message);
     }
     
@@ -55,7 +72,10 @@ public class Server {
      * @param msg message that is send
      */
     public void broadcast(String msg) {
-        // TODO insert body
+    	System.out.println("Er wordt een bericht verstuurd...");
+        for (ClientHandler handler : threads)	{
+        	handler.sendMessage(msg);
+        }
     }
     
     /**
@@ -63,7 +83,7 @@ public class Server {
      * @param handler ClientHandler that will be added
      */
     public void addHandler(ClientHandler handler) {
-        // TODO insert body
+        threads.add(handler);
     }
     
     /**
@@ -71,6 +91,6 @@ public class Server {
      * @param handler ClientHandler that will be removed
      */
     public void removeHandler(ClientHandler handler) {
-        // TODO insert body
+        threads.remove(handler);
     }
 }

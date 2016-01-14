@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -15,8 +16,9 @@ import java.net.Socket;
 public class ClientHandler extends Thread {
     private Server server;
     private BufferedReader in;
-    private BufferedWriter out;
+    private PrintWriter out;
     private String clientName;
+    private boolean running;
 
     /**
      * Constructs a ClientHandler object
@@ -24,7 +26,10 @@ public class ClientHandler extends Thread {
      */
     //@ requires serverArg != null && sockArg != null;
     public ClientHandler(Server serverArg, Socket sockArg) throws IOException {
-        // TODO insert body
+        server = serverArg;
+    	in = new BufferedReader(new InputStreamReader(sockArg.getInputStream()));
+    	out = new PrintWriter(sockArg.getOutputStream());
+    	running = true;
     }
 
     /**
@@ -47,7 +52,17 @@ public class ClientHandler extends Thread {
      * broken and shutdown() will be called. 
      */
     public void run() {
-        // TODO insert body
+        try {
+			announce();
+			while (running)	{
+				if (in.ready())	{
+					server.broadcast("[" + clientName + "] " + in.readLine());
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			shutdown();
+		}
     }
 
     /**
@@ -57,7 +72,8 @@ public class ClientHandler extends Thread {
      * and shutdown() is called.
      */
     public void sendMessage(String msg) {
-        // TODO insert body
+        out.println(msg);
+        out.flush();
     }
 
     /**
@@ -66,7 +82,7 @@ public class ClientHandler extends Thread {
      * is no longer participating in the chat. 
      */
     private void shutdown() {
+        server.broadcast("[" + clientName + "] has left]");
         server.removeHandler(this);
-        server.broadcast("[" + clientName + " has left]");
     }
 }

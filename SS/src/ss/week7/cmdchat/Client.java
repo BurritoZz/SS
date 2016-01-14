@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -16,8 +17,7 @@ import java.net.UnknownHostException;
  * @version 2005.02.21
  */
 public class Client extends Thread	{
-	private static final String USAGE
-        = "usage: java week7.cmdchat.Client <name> <address> <port>";
+	private static final String USAGE = "usage: java week7.cmdchat.Client <name> <address> <port>";
 
 	/** Start een Client-applicatie op. */
 	public static void main(String[] args) {
@@ -51,7 +51,7 @@ public class Client extends Thread	{
 			do	{
 				String input = readString("");
 				client.sendMessage(input);
-			} while (true);
+			} while (running);
 			
 		} catch (IOException e) {
 			print("ERROR: couldn't construct a client object!");
@@ -63,21 +63,17 @@ public class Client extends Thread	{
 	private String clientName;
 	private Socket sock;
 	private BufferedReader in;
-	private BufferedWriter out;
+	private PrintWriter out;
+	private static boolean running = true;
 
 	/**
 	 * Constructs a Client-object and tries to make a socket connection
 	 */
 	public Client(String name, InetAddress host, int port) throws IOException {
-		clientName = name;
-        try {
-            sock = new Socket(host.getHostAddress(), port);
-        	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-        	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-        } catch (IOException e) {
-            System.out.println("ERROR: could not create a socket on " + host.getHostAddress() + " and port " + port);
-        }
-        sendMessage(name);
+	    clientName = name;
+	    sock = new Socket(host, port);
+	    in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+	    out = new PrintWriter(sock.getOutputStream(), true);
 	}
 
 	/**
@@ -85,22 +81,37 @@ public class Client extends Thread	{
 	 * be forwarded to the MessageUI
 	 */
 	public void run() {
-		// TODO insert body
+	    try {
+	    	while (running) {
+	    		if (in.ready()) {
+	    			String msg = in.readLine();
+	    			System.out.println(msg);
+	    		}
+	    	}
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    }
 	}
 
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
-        try {
-			out.write(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    if (msg.equals("exit")) {
+	    	shutdown();
+	    } else {
+	    	out.println(msg);
+	    }
 	}
 
 	/** close the socket connection. */
 	public void shutdown() {
-		print("Closing socket connection...");
-		// TODO insert body
+		running = false;
+		try {
+			out.close();
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		print("Socket connection closed");
 	}
 
 	/** returns the client name */
@@ -116,8 +127,7 @@ public class Client extends Thread	{
 		System.out.print(tekst);
 		String antw = null;
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					System.in));
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			antw = in.readLine();
 		} catch (IOException e) {
 		}

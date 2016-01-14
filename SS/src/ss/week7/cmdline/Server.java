@@ -13,6 +13,7 @@ public class Server {
     private static final String USAGE
         = "usage: " + Server.class.getName() + " <name> <port>";
     private static ServerSocket socket;
+    public static boolean running = true;
 
     /** Starts a Server-application. */
     public static void main(String[] args) {
@@ -45,8 +46,9 @@ public class Server {
 	try {
 	    Peer peer = new Peer(name, socket.accept());
 	    Thread streamInputHandler = new Thread(peer);
-	    while (peer.running)	{
-	    	peer.handleTerminalInput();
+	    streamInputHandler.start();
+	    while (peer.running) {
+		peer.handleTerminalInput();
 	    }
 	    peer.shutDown();
 	} catch (IOException e) {
