@@ -1,10 +1,8 @@
 package ss.week7.cmdchat;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -18,7 +16,7 @@ public class ClientHandler extends Thread {
     private BufferedReader in;
     private PrintWriter out;
     private String clientName;
-    private boolean running;
+    public boolean running;
 
     /**
      * Constructs a ClientHandler object

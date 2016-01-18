@@ -1,7 +1,6 @@
 package ss.week7.cmdline;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -32,10 +31,10 @@ public class Peer implements Runnable {
      * @param   sockArg Socket of the Peer-proces
      */
     public Peer(String nameArg, Socket sockArg) throws IOException {
-	name = nameArg;
-	sock = sockArg;
-	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-	out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
+    	name = nameArg;
+    	sock = sockArg;
+    	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+    	out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
     }
 
     /**
@@ -43,15 +42,15 @@ public class Peer implements Runnable {
      * writes the characters to the default output.
      */
     public void run() {
-	while (running) {
-	   try {
-	       if (in.ready()) {
-		   System.out.print(in.readLine());
-	       }
-	   } catch (IOException e) {
-	       e.printStackTrace();
-	   }
-	}
+    	while (running) {
+    		try {
+    			if (in.ready()) {
+    				System.out.println(in.readLine());
+    			}
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
     }
 
 
@@ -61,30 +60,30 @@ public class Peer implements Runnable {
      * On Peer.EXIT the method ends
      */
     public void handleTerminalInput() {
-	String input = null;
-	while (running) {
-	    input = readString("Send a message or \"exit\" ");
-	    if (input.equals("exit")) {
-		shutDown();
-	    } else {
-		 out.println(input);
-		 out.flush();
-	    }
-	}
+    	String input = null;
+    	while (running) {
+    		input = readString("Send a message or \"exit\" ");
+    		if (input.equals("exit")) {
+    			shutDown();
+    		} else {
+    			out.println(input);
+    			out.flush();
+    		}
+    	}
     }
 
     /**
      * Closes the connection, the sockets will be terminated
      */
     public void shutDown() {
-	try {
-	    running = false;
-	    in.close();
-	    out.close();
-	    sock.close();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+    	try {
+    		running = false;
+    		in.close();
+    		out.close();
+    		sock.close();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
     }
 
     /**  returns name of the peer object*/

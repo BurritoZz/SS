@@ -26,7 +26,6 @@ public class Server {
         }
         server = new Server(Integer.parseInt(args[0]));
         server.run();
-        
     }
 
 
@@ -72,8 +71,9 @@ public class Server {
      * @param msg message that is send
      */
     public void broadcast(String msg) {
+    	List<ClientHandler> temp = threads;
     	System.out.println("Er wordt een bericht verstuurd...");
-        for (ClientHandler handler : threads)	{
+        for (ClientHandler handler : temp)	{
         	handler.sendMessage(msg);
         }
     }
@@ -84,6 +84,7 @@ public class Server {
      */
     public void addHandler(ClientHandler handler) {
         threads.add(handler);
+        handler.start();
     }
     
     /**

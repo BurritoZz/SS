@@ -59,7 +59,7 @@ public class Client {
             Thread streamInputHandler = new Thread(client);
             streamInputHandler.start();
             while (client.running) {
-        	client.handleTerminalInput();
+            	client.handleTerminalInput();
             }
             client.shutDown();
         } catch (IOException e) {
